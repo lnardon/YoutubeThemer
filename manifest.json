@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "YoutubeThemer",
+    "version": "0.1",
+    "content_scripts": [
+      {
+        "matches": ["https://www.youtube.com/*"],
+        "js": ["content.js"]
+      }
+    ],
+    "permissions": ["tabs"],
+    "browser_action": {
+      "default_popup": "index.html",
+      "default_title": "Youtube Themer",
+      "default_icon": "./logo.png"
+    },
+    "icons": {
+      "16": "logo.png",
+      "48": "logo.png",
+      "128": "logo.png"
+    }
+  }
