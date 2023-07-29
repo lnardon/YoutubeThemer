@@ -1,0 +1,44 @@
+body {
+  width: 250px;
+  height: 350px;
+  background-color: #131313;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.logo {
+  width: 2rem;
+}
+
+.title {
+  color: #fafafa;
+  font-size: 1.5rem;
+}
+
+.themeOptions {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.optionTitle {
+  color: #fafafa;
+  margin-bottom: 0.25rem;
+}
+
+.applyBtn {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  background-color: rgb(211, 46, 17);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #131313;
+}

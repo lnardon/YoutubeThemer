@@ -6,38 +6,34 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
-    <script src="./index.js"></script>
+    <script src="./script.js"></script>
     <link rel="stylesheet" href="./style.css" />
     <title>Youtube Themer</title>
   </head>
   <body>
-    <img
-      src=""
-      alt="logo"
-      class="logo"
-    />
+    <img src="./logo.png" alt="logo" class="logo" />
     <h1 class="title">Youtube Themer</h1>
     <div class="themeOptions">
       <div class="optionDiv">
-        <h3 class="optionTitle">Logo Color</h3>
+        <h3 class="optionTitle">Logo</h3>
         <input
           type="color"
-          id="setPageBGColor"
+          id="setLogoColor"
           value="#171717"
           class="optionWheel"
         />
       </div>
       <div class="optionDiv">
-        <h3 class="optionTitle">Font Color</h3>
+        <h3 class="optionTitle">Font</h3>
         <input
           type="color"
-          id="setAllFontsColors"
+          id="setFontsColor"
           value="#FAFAFA"
           class="optionWheel"
         />
       </div>
       <div class="optionDiv">
-        <h3 class="optionTitle">Icons Color</h3>
+        <h3 class="optionTitle">Icons</h3>
         <input
           type="color"
           id="setIconsColor"
@@ -45,7 +41,16 @@
           class="optionWheel"
         />
       </div>
+      <div class="optionDiv">
+        <h3 class="optionTitle">Timeline</h3>
+        <input
+          type="color"
+          id="setTimelineColor"
+          value="#FAFAFA"
+          class="optionWheel"
+        />
+      </div>
     </div>
-    <button id="applyBtn">APPLY</button>
+    <button id="applyBtn" class="applyBtn">Set Theme</button>
   </body>
 </html>
