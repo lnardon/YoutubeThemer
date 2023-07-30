@@ -1,13 +1,13 @@
-// window.onload = () => {
-//   const theme = localStorage.getItem("@youtheme");
-//   if (theme) {
-//     let parsedTheme = JSON.parse(theme);
-//     let keys = Object.keys(parsedTheme);
-//     keys.forEach((key) => {
-//       document.getElementById(key).value = parsedTheme[key];
-//     });
-//   }
-// };
+window.onload = () => {
+  const theme = localStorage.getItem("@youtheme");
+  if (theme) {
+    let parsedTheme = JSON.parse(theme);
+    let keys = Object.keys(parsedTheme);
+    keys.forEach((key) => {
+      document.getElementById(key).value = parsedTheme[key];
+    });
+  }
+};
 
 function getInputValue(id) {
   return document.getElementById(id).value;
@@ -17,11 +17,12 @@ function handleClick() {
   const theme = {
     setLogoColor: getInputValue("setLogoColor"),
     setTimelineColor: getInputValue("setTimelineColor"),
-    setAllFontsColors: getInputValue("setFontsColor"),
+    // setAllFontsColors: getInputValue("setFontsColor"),
     setIconsColor: getInputValue("setIconsColor"),
+    setPlayerIconsColor: getInputValue("setPlayerIconsColor"),
   };
 
-  localStorage.setItem("youtheme", JSON.stringify(theme));
+  localStorage.setItem("@youtheme", JSON.stringify(theme));
 
   chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
     chrome.runtime.sendMessage(theme);
