@@ -25,11 +25,37 @@ function gotMessage(message, sender, sendResponse) {
   }
 
   function changeTimeLineColor() {
-    const selector = ".ytp-swatch-background-color ";
-    const timeLine = document.querySelector(selector);
+    const selector = ".ytp-swatch-background-color";
+    const timeLine = document.querySelectorAll(selector);
 
     if (timeLine) {
-      timeLine.style.backgroundColor = message.setTimelineColor;
+      timeLine.forEach((el) => {
+        el.style.backgroundColor = message.setTimelineColor;
+      });
+    } else {
+      console.error("SVG path not found using the given selector:", selector);
+    }
+  }
+
+  function changePlayerIconsColor() {
+    let selector = ".ytp-svg-fill";
+    let icons = document.querySelectorAll(selector);
+
+    if (icons) {
+      icons.forEach((el) => {
+        el.style.fill = message.setPlayerIconsColor;
+      });
+    } else {
+      console.error("SVG path not found using the given selector:", selector);
+    }
+
+    selector = ".ytp-button > svg";
+    icons = document.querySelectorAll(selector);
+
+    if (icons) {
+      icons.forEach((el) => {
+        el.style.fill = message.setPlayerIconsColor;
+      });
     } else {
       console.error("SVG path not found using the given selector:", selector);
     }
@@ -51,6 +77,7 @@ function gotMessage(message, sender, sendResponse) {
   changeLogoColor();
   changeTimeLineColor();
   changeIconsColor();
+  changePlayerIconsColor();
 }
 
 // Listen for messages
