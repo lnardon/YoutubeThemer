@@ -8,8 +8,15 @@ body {
   flex-direction: column;
 }
 
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .logo {
-  width: 2rem;
+  width: 2.5rem;
+  margin-right: 0.5rem;
 }
 
 .title {
@@ -20,16 +27,30 @@ body {
 .themeOptions {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  /* flex-direction: column; */
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: 2rem;
   margin-bottom: 1.5rem;
+  padding: 0.75rem;
+}
+
+.optionDiv {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .optionTitle {
   color: #fafafa;
   margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.optionWheel {
+  cursor: pointer;
+  width: 3.5rem;
 }
 
 .applyBtn {
