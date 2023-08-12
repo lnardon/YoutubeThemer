@@ -1,17 +1,9 @@
-// HELPER FUNCTIONS
-function persist(key, value) {
-  let theme = JSON.parse(localStorage.getItem("@youtheme"));
-  if (theme) {
-    theme[key] = value;
-  } else {
-    theme = {};
-    theme[key] = value;
-  }
-  localStorage.setItem("@youtheme", JSON.stringify(theme));
-}
-
 // Function to modify theme
-function gotMessage(message, sender, sendResponse) {
+function gotMessage(message) {
+  function persist(key, value) {
+    chrome.storage.local.set({ [key]: value }, function () {});
+  }
+
   function changeLogoColor() {
     const selector =
       "#logo-icon > yt-icon-shape > icon-shape > div > svg > svg > g:nth-child(1) > path:nth-child(1)";
@@ -19,6 +11,7 @@ function gotMessage(message, sender, sendResponse) {
 
     if (svgPath) {
       svgPath.style.fill = message.setLogoColor;
+      persist("setLogoColor", message.setLogoColor);
     } else {
       console.error("SVG path not found using the given selector:", selector);
     }
@@ -31,6 +24,7 @@ function gotMessage(message, sender, sendResponse) {
     if (timeLine) {
       timeLine.forEach((el) => {
         el.style.backgroundColor = message.setTimelineColor;
+        persist("setTimelineColor", message.setTimelineColor);
       });
     } else {
       console.error("SVG path not found using the given selector:", selector);
@@ -44,6 +38,7 @@ function gotMessage(message, sender, sendResponse) {
     if (icons) {
       icons.forEach((el) => {
         el.style.fill = message.setPlayerIconsColor;
+        persist("setPlayerIconsColor", message.setPlayerIconsColor);
       });
     } else {
       console.error("SVG path not found using the given selector:", selector);
@@ -68,6 +63,7 @@ function gotMessage(message, sender, sendResponse) {
     if (icon) {
       icon.forEach((el) => {
         el.style.color = message.setIconsColor;
+        persist("setIconsColor", message.setIconsColor);
       });
     } else {
       console.error("SVG path not found using the given selector:", selector);
@@ -81,7 +77,7 @@ function gotMessage(message, sender, sendResponse) {
 }
 
 // Listen for messages
-function handleGotMessage(message, sender, sendResponse) {
+function handleGotMessage(message) {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.scripting.executeScript({
       target: { tabId: tabs[0].id },
@@ -90,4 +86,33 @@ function handleGotMessage(message, sender, sendResponse) {
     });
   });
 }
+
+const theme = {
+  setLogoColor: "setLogoColor",
+  setTimelineColor: "setTimelineColor",
+  // setAllFontsColors: getInputValue("setFontsColor"),
+  setIconsColor: "setIconsColor",
+  setPlayerIconsColor: "setPlayerIconsColor",
+};
+
 chrome.runtime.onMessage.addListener(handleGotMessage);
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.greeting === "get-theme-data") {
+    let fetchedTheme = {};
+    const keys = Object.keys(theme);
+    let counter = 0;
+
+    keys.forEach((key) => {
+      chrome.storage.local.get(key, function (value) {
+        fetchedTheme[key] = value[key];
+        counter++;
+        if (counter === keys.length) {
+          sendResponse(fetchedTheme);
+        }
+      });
+    });
+    return true;
+  }
+  return true;
+});
