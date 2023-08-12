@@ -1,12 +1,19 @@
 {
   "manifest_version": 3,
   "name": "Youtube Themer",
-  "description": "Create your own themes for Youtube!",
+  "description": "Create your own custom theme for Youtube! Open source extension by github.com/lnardon.",
   "version": "0.1",
   "permissions": ["scripting", "storage", "activeTab", "tabs"],
+  "host_permissions": ["https://www.youtube.com/*"],
   "background": {
     "service_worker": "./background.js"
   },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["./content.js"]
+    }
+  ],
   "action": {
     "default_popup": "index.html",
     "default_title": "Youtube Themer",
