@@ -1,3 +1,53 @@
+let debounceTimer;
+
+function debounce(func, wait) {
+  return function (...args) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => func.apply(this, args), wait);
+  };
+}
+
+function observeChanges() {
+  const observerConfig = {
+    childList: true,
+    subtree: true,
+  };
+
+  const selectorsToObserve = [
+    "#logo-icon > yt-icon-shape > icon-shape > div > svg > svg > g:nth-child(1) > path:nth-child(1)",
+    ".ytp-swatch-background-color",
+    ".ytp-svg-fill",
+    ".ytp-button > svg",
+    ".guide-icon.ytd-guide-entry-renderer",
+  ];
+
+  const mutationObserver = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === "childList") {
+        debounce(() => {
+          chrome.runtime.sendMessage(
+            { greeting: "get-theme-data" },
+            (response) => {
+              if (response) {
+                gotMessage(response);
+              }
+            }
+          );
+        }, 1000)();
+      }
+    }
+  });
+
+  for (const selector of selectorsToObserve) {
+    const targetNode = document.querySelector(selector);
+    if (targetNode) {
+      mutationObserver.observe(targetNode, observerConfig);
+    } else {
+      console.log("Node not found using the given selector:", selector);
+    }
+  }
+}
+
 function gotMessage(message) {
   function changeLogoColor() {
     const selector =
@@ -7,7 +57,7 @@ function gotMessage(message) {
     if (svgPath) {
       svgPath.style.fill = message.setLogoColor;
     } else {
-      console.error("SVG path not found using the given selector:", selector);
+      console.log("SVG path not found using the given selector:", selector);
     }
   }
 
@@ -20,7 +70,7 @@ function gotMessage(message) {
         el.style.backgroundColor = message.setTimelineColor;
       });
     } else {
-      console.error("SVG path not found using the given selector:", selector);
+      console.log("SVG path not found using the given selector:", selector);
     }
   }
 
@@ -33,7 +83,7 @@ function gotMessage(message) {
         el.style.fill = message.setPlayerIconsColor;
       });
     } else {
-      console.error("SVG path not found using the given selector:", selector);
+      console.log("SVG path not found using the given selector:", selector);
     }
 
     selector = ".ytp-button > svg";
@@ -44,7 +94,7 @@ function gotMessage(message) {
         el.style.fill = message.setPlayerIconsColor;
       });
     } else {
-      console.error("SVG path not found using the given selector:", selector);
+      console.log("SVG path not found using the given selector:", selector);
     }
   }
 
@@ -57,7 +107,7 @@ function gotMessage(message) {
         el.style.color = message.setIconsColor;
       });
     } else {
-      console.error("SVG path not found using the given selector:", selector);
+      console.log("SVG path not found using the given selector:", selector);
     }
   }
 
